@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050508;
+  --foreground: #e4e4e7;
+  --neon-cyan: #00f5ff;
+  --neon-magenta: #ff00aa;
+  --neon-purple: #b026ff;
+  --neon-green: #39ff14;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-magenta: var(--neon-magenta);
+  --color-neon-purple: var(--neon-purple);
+  --color-neon-green: var(--neon-green);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-orbitron);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(0, 245, 255, 0.25);
+  color: #fff;
+}
+
+.neon-grid {
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent);
+}
+
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.5) 2px,
+    rgba(255, 255, 255, 0.5) 4px
+  );
+}
+
+.glass-panel {
+  background: rgba(8, 8, 16, 0.65);
+  backdrop-filter: blur(16px);
+}
+
+.neon-text-cyan {
+  text-shadow:
+    0 0 12px rgba(0, 245, 255, 0.5),
+    0 0 32px rgba(0, 245, 255, 0.25);
+}
+
+.neon-text-gradient {
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.35));
+}
+
+.neon-line {
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), transparent);
+  box-shadow: 0 0 16px rgba(0, 245, 255, 0.4);
+}
+
+.neon-border-cyan {
+  box-shadow:
+    0 0 0 1px rgba(0, 245, 255, 0.15),
+    0 0 40px rgba(0, 245, 255, 0.08);
+}
+
+.neon-border-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 255, 0.6),
+    rgba(255, 0, 170, 0.4),
+    rgba(176, 38, 255, 0.5)
+  );
+  animation: border-pulse 4s ease-in-out infinite;
+}
+
+@keyframes border-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.neon-btn-primary {
+  color: #050508;
+  background: linear-gradient(135deg, var(--neon-cyan), #00c4cc);
+  box-shadow:
+    0 0 24px rgba(0, 245, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.neon-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 36px rgba(0, 245, 255, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.neon-btn-ghost {
+  color: var(--neon-cyan);
+  border-color: rgba(0, 245, 255, 0.35);
+  background: rgba(0, 245, 255, 0.05);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.neon-btn-ghost:hover {
+  border-color: rgba(0, 245, 255, 0.6);
+  background: rgba(0, 245, 255, 0.1);
+  box-shadow: 0 0 24px rgba(0, 245, 255, 0.2);
+}
+
+.neon-btn {
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 245, 255, 0.35);
+  background: rgba(0, 245, 255, 0.08);
+}
+
+.neon-btn:hover {
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.25);
+}
+
+/* Contribution calendar horizontal scroll — neon track & thumb */
+.contribution-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 245, 255, 0.55) rgba(255, 255, 255, 0.06);
+  scrollbar-gutter: stable;
+}
+
+.contribution-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.contribution-scroll::-webkit-scrollbar-track {
+  margin-top: 0.75rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 245, 255, 0.12);
+}
+
+.contribution-scroll::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(0, 245, 255, 0.85), rgba(255, 0, 170, 0.75));
+  box-shadow: 0 0 12px rgba(0, 245, 255, 0.35);
+}
+
+.contribution-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #00f5ff, #ff00aa);
 }
