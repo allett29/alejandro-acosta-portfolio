@@ -78,7 +78,7 @@ export function Contact() {
                 Send email
               </Link>
               <Link
-                href="/cv-alejandro-acosta.pdf"
+                href="/cv-alejandro-acosta.pdf?v=2026-09"
                 target="_blank"
                 className="neon-btn-ghost rounded-xl border px-8 py-3 text-sm font-semibold"
               >

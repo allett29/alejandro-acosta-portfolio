@@ -66,7 +66,7 @@ export function Navbar() {
           ))}
           <li>
             <Link
-              href="/cv-alejandro-acosta.pdf"
+              href="/cv-alejandro-acosta.pdf?v=2026-09"
               target="_blank"
               className="neon-btn ml-2 inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium"
             >
@@ -105,7 +105,7 @@ export function Navbar() {
             ))}
             <li>
               <Link
-                href="/cv-alejandro-acosta.pdf"
+                href="/cv-alejandro-acosta.pdf?v=2026-09"
                 target="_blank"
                 className="neon-btn mt-2 block rounded-lg px-3 py-3 text-center font-medium"
                 onClick={() => setOpen(false)}
