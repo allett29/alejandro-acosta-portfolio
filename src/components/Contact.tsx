@@ -18,7 +18,7 @@ export function Contact() {
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="contact" eyebrow="07 · Let's talk" title="Contact" />
+        <SectionHeading id="contact" eyebrow="06 · Let's talk" title="Contact" />
 
         <motion.div
           className="neon-border-gradient relative overflow-hidden rounded-3xl border p-[1px]"

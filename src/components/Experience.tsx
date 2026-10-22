@@ -12,7 +12,7 @@ export function Experience() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           id="experience"
-          eyebrow="05 · Career"
+          eyebrow="04 · Career"
           title="Experience"
         />
 

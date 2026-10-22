@@ -144,7 +144,7 @@ export function Projects() {
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="projects" eyebrow="06 · Selected work" title="Projects" />
+        <SectionHeading id="projects" eyebrow="05 · Selected work" title="Projects" />
 
         <div className="grid gap-6 md:grid-cols-2">
           {projects.map((project, i) => (

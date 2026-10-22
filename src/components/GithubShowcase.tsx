@@ -44,7 +44,7 @@ export function GithubShowcase({ data }: Props) {
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="github" eyebrow="04 · Open source" title="GitHub activity" />
+        <SectionHeading id="github" eyebrow="03 · Open source" title="GitHub activity" />
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
           <motion.div

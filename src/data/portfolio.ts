@@ -173,7 +173,6 @@ export const navLinks = [
   { href: "#home", label: "Home" },
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
-  { href: "#certifications", label: "Certs" },
   { href: "#github", label: "GitHub" },
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },

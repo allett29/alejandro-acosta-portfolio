@@ -4,7 +4,6 @@ import { navLinks } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  Award,
   Briefcase,
   FileDown,
   FolderKanban,
@@ -25,7 +24,6 @@ const iconByLabel: Record<string, LucideIcon> = {
   Home,
   About: User,
   Skills: Layers,
-  Certs: Award,
   Experience: Briefcase,
   Projects: FolderKanban,
   Contact: Mail,

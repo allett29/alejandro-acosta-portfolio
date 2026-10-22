@@ -1,6 +1,5 @@
 import { About } from "@/components/About";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
-import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
 import { Experience } from "@/components/Experience";
 import { Footer } from "@/components/Footer";
@@ -32,18 +31,14 @@ export default async function Home() {
         </SurrealSection>
         <SectionPortal index={2} />
         <SurrealSection index={2}>
-          <Certifications />
+          <GithubShowcase data={github} />
         </SurrealSection>
         <SectionPortal index={3} />
         <SurrealSection index={3}>
-          <GithubShowcase data={github} />
+          <Experience />
         </SurrealSection>
         <SectionPortal index={4} />
         <SurrealSection index={0}>
-          <Experience />
-        </SurrealSection>
-        <SectionPortal index={0} />
-        <SurrealSection index={1}>
           <Projects />
         </SurrealSection>
         <SectionPortal index={1} />
