@@ -1,15 +1,22 @@
 "use client";
 
-import { education, profile } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { motion } from "framer-motion";
 import { GraduationCap, Sparkles } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 
 export function About() {
+  const { dict } = useLocale();
+  const { sections, profile, education } = dict;
+
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="about" eyebrow="01 · Profile" title="About" />
+        <SectionHeading
+          id="about"
+          eyebrow={sections.about.eyebrow}
+          title={sections.about.title}
+        />
 
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           <motion.div
@@ -22,7 +29,7 @@ export function About() {
             <div className="mb-4 flex items-center gap-2 text-neon-cyan">
               <Sparkles size={18} />
               <span className="font-mono text-xs uppercase tracking-widest">
-                Professional summary
+                {sections.about.summaryLabel}
               </span>
             </div>
             <p className="text-base leading-relaxed text-zinc-300 sm:text-lg">{profile}</p>

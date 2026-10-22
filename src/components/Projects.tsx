@@ -1,6 +1,7 @@
 "use client";
 
-import { projects } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
+import type { ProjectEntry } from "@/i18n/types";
 import { cn } from "@/lib/utils";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { IconGitHub } from "@/components/icons/BrandIcons";
@@ -35,9 +36,16 @@ const accentStyles = {
 function ProjectCard({
   project,
   index,
+  labels,
 }: {
-  project: (typeof projects)[number];
+  project: ProjectEntry;
   index: number;
+  labels: {
+    featured: string;
+    liveDemo: string;
+    github: string;
+    privateProject: string;
+  };
 }) {
   const styles = accentStyles[project.accent];
   const mx = useMotionValue(0);
@@ -82,7 +90,7 @@ function ProjectCard({
           <div>
             {project.featured && (
               <span className="mb-2 inline-block font-mono text-[10px] uppercase tracking-[0.3em] text-neon-cyan">
-                Destacado
+                {labels.featured}
               </span>
             )}
             <h3
@@ -119,7 +127,7 @@ function ProjectCard({
               target="_blank"
               className="neon-btn-primary inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium"
             >
-              Live demo <ArrowUpRight size={16} />
+              {labels.liveDemo} <ArrowUpRight size={16} />
             </Link>
           )}
           {project.github && (
@@ -128,11 +136,11 @@ function ProjectCard({
               target="_blank"
               className="neon-btn-ghost inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm"
             >
-              <IconGitHub className="h-4 w-4" /> GitHub
+              <IconGitHub className="h-4 w-4" /> {labels.github}
             </Link>
           )}
           {!primaryHref && (
-            <span className="text-sm text-zinc-500">Private / institutional project</span>
+            <span className="text-sm text-zinc-500">{labels.privateProject}</span>
           )}
         </div>
       </div>
@@ -141,14 +149,26 @@ function ProjectCard({
 }
 
 export function Projects() {
+  const { dict } = useLocale();
+  const { projects, sections } = dict;
+
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="projects" eyebrow="05 · Selected work" title="Projects" />
+        <SectionHeading
+          id="projects"
+          eyebrow={sections.projects.eyebrow}
+          title={sections.projects.title}
+        />
 
         <div className="grid gap-6 md:grid-cols-2">
           {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
+            <ProjectCard
+              key={project.title}
+              project={project}
+              index={i}
+              labels={sections.projects}
+            />
           ))}
         </div>
       </div>

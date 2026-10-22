@@ -8,6 +8,7 @@ import Link from "next/link";
 import { GithubContributionGraph } from "./GithubContributionGraph";
 import { GithubStatsPanel } from "./GithubStatsPanel";
 import { IconGitHub } from "./icons/BrandIcons";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { SectionHeading } from "./SectionHeading";
 
 function StatCard({
@@ -37,6 +38,8 @@ type Props = {
 };
 
 export function GithubShowcase({ data }: Props) {
+  const { dict } = useLocale();
+  const { github: gh, sections } = dict;
   const memberSince = new Date(data.createdAt).getFullYear();
   const contributionsLabel =
     data.totalContributions !== null ? data.totalContributions : "—";
@@ -44,7 +47,11 @@ export function GithubShowcase({ data }: Props) {
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="github" eyebrow="03 · Open source" title="GitHub activity" />
+        <SectionHeading
+          id="github"
+          eyebrow={sections.github.eyebrow}
+          title={sections.github.title}
+        />
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
           <motion.div
@@ -63,27 +70,29 @@ export function GithubShowcase({ data }: Props) {
               />
               <div>
                 <p className="font-display text-xl font-bold text-white">@{data.login}</p>
-                <p className="text-sm text-zinc-500">{data.followers} followers</p>
+                <p className="text-sm text-zinc-500">
+                  {data.followers} {gh.followers}
+                </p>
                 <Link
                   href={data.profileUrl}
                   target="_blank"
                   className="mt-1 inline-flex items-center gap-1 text-sm text-neon-cyan hover:underline"
                 >
-                  <IconGitHub className="h-4 w-4" /> View profile
+                  <IconGitHub className="h-4 w-4" /> {gh.viewProfile}
                 </Link>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <StatCard
-                label={data.includesPrivateData ? "Total repos" : "Public repos"}
+                label={data.includesPrivateData ? gh.totalRepos : gh.publicRepos}
                 value={data.includesPrivateData ? data.totalRepos : data.publicRepos}
                 icon={GitFork}
               />
-              <StatCard label="Commits (all repos)" value={data.totalCommits} icon={GitCommit} />
-              <StatCard label="Contributions (12 mo.)" value={contributionsLabel} icon={Calendar} />
+              <StatCard label={gh.commitsAllRepos} value={data.totalCommits} icon={GitCommit} />
+              <StatCard label={gh.contributions12mo} value={contributionsLabel} icon={Calendar} />
               <StatCard
-                label={data.includesPrivateData ? "Private repos" : "Followers"}
+                label={data.includesPrivateData ? gh.privateRepos : gh.followersStat}
                 value={data.includesPrivateData ? data.privateRepos : data.followers}
                 icon={data.includesPrivateData ? Lock : Users}
               />
@@ -99,7 +108,7 @@ export function GithubShowcase({ data }: Props) {
             />
 
             <p className="text-xs text-zinc-500">
-              GitHub member since {memberSince}. Stats refresh hourly.
+              {gh.memberSince} {memberSince}. {gh.statsRefresh}
             </p>
           </motion.div>
 

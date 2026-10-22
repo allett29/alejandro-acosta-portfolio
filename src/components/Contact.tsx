@@ -1,6 +1,7 @@
 "use client";
 
 import { site } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { motion } from "framer-motion";
 import { IconGitHub, IconLinkedIn } from "@/components/icons/BrandIcons";
 import { Mail, MapPin, Phone } from "lucide-react";
@@ -15,10 +16,17 @@ const links = [
 ];
 
 export function Contact() {
+  const { dict } = useLocale();
+  const { sections, meta } = dict;
+
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading id="contact" eyebrow="06 · Let's talk" title="Contact" />
+        <SectionHeading
+          id="contact"
+          eyebrow={sections.contact.eyebrow}
+          title={sections.contact.title}
+        />
 
         <motion.div
           className="neon-border-gradient relative overflow-hidden rounded-3xl border p-[1px]"
@@ -31,8 +39,7 @@ export function Contact() {
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
                 <p className="text-lg text-zinc-300 sm:text-xl">
-                  Full Stack project, NestJS backend, or legacy migration? Reach out—I am keen to
-                  build software that ships and runs in production.
+                  {sections.contact.intro}
                 </p>
                 <p className="mt-4 flex items-center gap-2 text-sm text-zinc-500">
                   <MapPin size={16} className="text-neon-magenta" />
@@ -72,17 +79,17 @@ export function Contact() {
               viewport={{ once: true }}
             >
               <Link
-                href={`mailto:${site.email}?subject=Contact%20from%20portfolio`}
+                href={`mailto:${site.email}?subject=${encodeURIComponent(meta.contactEmailSubject)}`}
                 className="neon-btn-primary rounded-xl px-8 py-3 text-sm font-semibold"
               >
-                Send email
+                {sections.contact.sendEmail}
               </Link>
               <Link
                 href="/cv-alejandro-acosta.pdf?v=2026-09"
                 target="_blank"
                 className="neon-btn-ghost rounded-xl border px-8 py-3 text-sm font-semibold"
               >
-                Download CV
+                {sections.contact.downloadCv}
               </Link>
             </motion.div>
           </div>

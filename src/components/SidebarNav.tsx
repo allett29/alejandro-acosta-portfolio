@@ -1,6 +1,6 @@
 "use client";
 
-import { navLinks } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
@@ -20,13 +20,13 @@ import { WaveIconBubble } from "./WaveIconBubble";
 
 const accents = ["cyan", "magenta", "purple"] as const;
 
-const iconByLabel: Record<string, LucideIcon> = {
-  Home,
-  About: User,
-  Skills: Layers,
-  Experience: Briefcase,
-  Projects: FolderKanban,
-  Contact: Mail,
+const iconBySectionId: Record<string, LucideIcon> = {
+  home: Home,
+  about: User,
+  skills: Layers,
+  experience: Briefcase,
+  projects: FolderKanban,
+  contact: Mail,
 };
 
 type DockNavProps = {
@@ -71,12 +71,14 @@ function WaveLabelPill({ label, accent, active }: { label: string; accent: (type
 }
 
 function DockNav({ onNavigate }: DockNavProps) {
+  const { dict } = useLocale();
+  const navLinks = dict.nav;
   const [activeId, setActiveId] = useState("home");
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
 
   const observeSections = useCallback(() => {
-    const ids = navLinks.map((l) => l.href.replace("#", ""));
+    const ids = navLinks.map((l) => l.sectionId);
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -93,7 +95,7 @@ function DockNav({ onNavigate }: DockNavProps) {
     );
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [navLinks]);
 
   useEffect(() => {
     const cleanup = observeSections();
@@ -111,13 +113,13 @@ function DockNav({ onNavigate }: DockNavProps) {
     >
       <ul className="flex flex-1 flex-col justify-evenly">
         {navLinks.map((link, index) => {
-          const id = link.href.replace("#", "");
+          const id = link.sectionId;
           const active = activeId === id;
           const hovered = hoveredIndex === index;
           const expanded = hovered || active;
           const accent = accents[index % accents.length];
           const bubbleSize = expanded ? 48 : 42;
-          const isGitHub = link.label === "GitHub";
+          const isGitHub = link.sectionId === "github";
 
           return (
             <motion.li
@@ -146,7 +148,7 @@ function DockNav({ onNavigate }: DockNavProps) {
                   waveIndex={index}
                   energized={expanded}
                   size={bubbleSize}
-                  icon={isGitHub ? undefined : (iconByLabel[link.label] ?? Home)}
+                  icon={isGitHub ? undefined : (iconBySectionId[link.sectionId] ?? Home)}
                 >
                   {isGitHub ? (
                     <IconGitHub className="h-[18px] w-[18px] text-neon-cyan" />

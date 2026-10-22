@@ -1,19 +1,22 @@
 "use client";
 
-import { experience } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { motion } from "framer-motion";
 import { Briefcase, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { SectionHeading } from "./SectionHeading";
 
 export function Experience() {
+  const { dict } = useLocale();
+  const { experience, sections } = dict;
+
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           id="experience"
-          eyebrow="04 · Career"
-          title="Experience"
+          eyebrow={sections.experience.eyebrow}
+          title={sections.experience.title}
         />
 
         <div className="relative">
@@ -69,7 +72,7 @@ export function Experience() {
                             target="_blank"
                             className="mt-4 inline-flex items-center gap-1 text-sm text-neon-cyan hover:underline"
                           >
-                            View site <ExternalLink size={14} />
+                            {sections.experience.viewSite} <ExternalLink size={14} />
                           </Link>
                         )}
                       </div>

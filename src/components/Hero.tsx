@@ -1,6 +1,7 @@
 "use client";
 
-import { site, typewriterRoles } from "@/data/portfolio";
+import { site } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { motion } from "framer-motion";
 import { IconGitHub, IconLinkedIn } from "@/components/icons/BrandIcons";
 import { ArrowDown, Mail } from "lucide-react";
@@ -23,6 +24,9 @@ const item = {
 };
 
 export function Hero() {
+  const { locale, dict } = useLocale();
+  const { site: siteCopy, hero, typewriterRoles } = dict;
+
   return (
     <section
       id="home"
@@ -54,9 +58,9 @@ export function Hero() {
             </motion.h1>
 
             <motion.p variants={item} className="mt-4 text-lg text-zinc-400 sm:text-xl">
-              {site.role}
+              {siteCopy.role}
               <span className="text-neon-cyan"> · </span>
-              {site.tagline}
+              {siteCopy.tagline}
             </motion.p>
 
             <motion.div
@@ -64,6 +68,7 @@ export function Hero() {
               className="mt-6 flex min-h-[2.5rem] items-center font-mono text-base text-neon-cyan sm:text-lg"
             >
               <TypeAnimation
+                key={locale}
                 sequence={typewriterRoles.flatMap((role) => [role, 1800])}
                 wrapper="span"
                 speed={40}
@@ -77,20 +82,20 @@ export function Hero() {
                 href="#projects"
                 className="neon-btn-primary rounded-xl px-6 py-3 text-sm font-semibold"
               >
-                View projects
+                {hero.viewProjects}
               </Link>
               <Link
                 href="#contact"
                 className="neon-btn-ghost rounded-xl border px-6 py-3 text-sm font-semibold"
               >
-                Contact
+                {hero.contact}
               </Link>
               <Link
                 href="/cv-alejandro-acosta.pdf?v=2026-09"
                 target="_blank"
                 className="neon-btn-ghost rounded-xl border px-6 py-3 text-sm font-semibold"
               >
-                CV PDF
+                {hero.cvPdf}
               </Link>
             </motion.div>
 
@@ -119,7 +124,7 @@ export function Hero() {
               <div className="neon-border-gradient relative overflow-hidden rounded-[1.25rem] border p-[2px]">
                 <Image
                   src="/foto.jpg"
-                  alt={`${site.shortName} — professional photo`}
+                  alt={`${site.shortName} — ${hero.photoAltSuffix}`}
                   width={640}
                   height={800}
                   priority
@@ -128,7 +133,7 @@ export function Hero() {
                 />
               </div>
               <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-500 lg:text-right">
-                {site.role}
+                {siteCopy.role}
               </p>
             </div>
           </motion.div>
@@ -140,7 +145,7 @@ export function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-neon-cyan/70"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        aria-label="Scroll down"
+        aria-label={hero.scrollDown}
       >
         <ArrowDown size={28} />
       </motion.a>

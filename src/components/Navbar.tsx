@@ -1,6 +1,6 @@
 "use client";
 
-import { navLinks, site } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function Navbar() {
+  const { dict } = useLocale();
+  const navLinks = dict.nav;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 

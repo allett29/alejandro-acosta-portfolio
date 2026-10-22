@@ -1,6 +1,7 @@
 "use client";
 
-import { skillCategories, spokenLanguages, type SkillCategory } from "@/data/skills-matrix";
+import { useLocale } from "@/i18n/LocaleProvider";
+import type { SkillCategory } from "@/i18n/types";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { Languages } from "lucide-react";
@@ -142,12 +143,16 @@ function tabLabelFill(index: number, activeIndex: number, color: SkillCategory["
 }
 
 function SkillTabRail({
+  categories,
+  autoTourLabel,
   activeIndex,
   progress,
   onSelect,
   onPause,
   onResume,
 }: {
+  categories: SkillCategory[];
+  autoTourLabel: string;
   activeIndex: number;
   progress: number;
   onSelect: (index: number) => void;
@@ -185,7 +190,7 @@ function SkillTabRail({
   }, []);
 
   const layoutReady =
-    boxes.length === skillCategories.length && svgSize.w > 0 && svgSize.h > 0;
+    boxes.length === categories.length && svgSize.w > 0 && svgSize.h > 0;
 
   useLayoutEffect(() => {
     measure();
@@ -197,11 +202,11 @@ function SkillTabRail({
       window.removeEventListener("resize", measure);
       ro?.disconnect();
     };
-  }, [measure]);
+  }, [measure, categories]);
 
   useLayoutEffect(() => {
     if (layoutReady) measure();
-  }, [layoutReady, measure]);
+  }, [layoutReady, measure, categories]);
 
   const pathD = buildConnectorPath(points);
   const linePhaseEnd = activeIndex === 0 ? 0 : LINE_PHASE_END;
@@ -283,7 +288,7 @@ function SkillTabRail({
 
             {boxes.map((box, i) => (
               <rect
-                key={`fill-${skillCategories[i]?.id ?? i}`}
+                key={`fill-${categories[i]?.id ?? i}`}
                 x={box.x}
                 y={box.y}
                 width={box.w}
@@ -298,7 +303,7 @@ function SkillTabRail({
               if (i <= activeIndex) return null;
               return (
                 <path
-                  key={`idle-${skillCategories[i]?.id ?? i}`}
+                  key={`idle-${categories[i]?.id ?? i}`}
                   d={pillOutlinePath(box)}
                   fill="none"
                   stroke="rgba(255,255,255,0.12)"
@@ -311,7 +316,7 @@ function SkillTabRail({
               if (i >= activeIndex) return null;
               return (
                 <path
-                  key={`done-${skillCategories[i]?.id ?? i}`}
+                  key={`done-${categories[i]?.id ?? i}`}
                   d={pillOutlinePath(box)}
                   fill="none"
                   stroke="url(#skillTabLine)"
@@ -345,7 +350,7 @@ function SkillTabRail({
             )}
 
             {boxes.map((box, i) => {
-              const cat = skillCategories[i];
+              const cat = categories[i];
               if (!cat) return null;
               return (
                 <text
@@ -364,7 +369,7 @@ function SkillTabRail({
           </svg>
         )}
 
-        {skillCategories.map((cat, index) => {
+        {categories.map((cat, index) => {
           const box = boxes[index];
           return (
             <button
@@ -397,9 +402,9 @@ function SkillTabRail({
       </div>
 
       <div className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-wider text-zinc-600">
-        <span>Auto tour</span>
+        <span>{autoTourLabel}</span>
         <span className="text-neon-cyan/80">
-          {skillCategories[activeIndex]?.title}
+          {categories[activeIndex]?.title}
           <span className="ml-2 text-zinc-500">
             {Math.round(progress * 100)}%
           </span>
@@ -410,6 +415,11 @@ function SkillTabRail({
 }
 
 export function SkillMatrix() {
+  const { dict } = useLocale();
+  const skillCategories = dict.skillCategories;
+  const spokenLanguages = dict.spokenLanguages;
+  const { sections } = dict;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -433,7 +443,7 @@ export function SkillMatrix() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [paused]);
+  }, [paused, skillCategories.length]);
 
   const selectTab = (index: number) => {
     cycleStartRef.current = performance.now() - index * TAB_DWELL_MS;
@@ -446,11 +456,13 @@ export function SkillMatrix() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           id="skills"
-          eyebrow="02 · Skill arsenal"
-          title="Technical skills"
+          eyebrow={sections.skills.eyebrow}
+          title={sections.skills.title}
         />
 
         <SkillTabRail
+          categories={skillCategories}
+          autoTourLabel={sections.skills.autoTour}
           activeIndex={activeIndex}
           progress={progress}
           onSelect={selectTab}
@@ -470,7 +482,9 @@ export function SkillMatrix() {
         >
           <div className="mb-5 flex items-center gap-2 text-neon-magenta">
             <Languages size={18} />
-            <h3 className="font-display text-lg font-semibold text-white">Spoken languages</h3>
+            <h3 className="font-display text-lg font-semibold text-white">
+              {sections.skills.spokenLanguages}
+            </h3>
           </div>
           <ul className="space-y-5">
             {spokenLanguages.map((lang) => (

@@ -1,6 +1,6 @@
 "use client";
 
-import { skillGroups } from "@/data/portfolio";
+import { useLocale } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { SectionHeading } from "./SectionHeading";
@@ -21,9 +21,21 @@ const accentMap = {
     badge: "border-neon-purple/30 bg-neon-purple/10 text-neon-purple",
     glow: "group-hover:shadow-[0_0_30px_rgba(176,38,255,0.15)]",
   },
+  green: {
+    border: "hover:border-neon-green/50",
+    badge: "border-neon-green/30 bg-neon-green/10 text-neon-green",
+    glow: "group-hover:shadow-[0_0_30px_rgba(57,255,20,0.15)]",
+  },
 };
 
 export function Skills() {
+  const { dict } = useLocale();
+  const skillGroups = dict.skillCategories.map((cat) => ({
+    title: cat.title,
+    color: cat.color,
+    items: cat.items,
+  }));
+
   return (
     <section className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">

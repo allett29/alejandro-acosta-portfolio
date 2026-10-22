@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "@/i18n/LocaleProvider";
 import type { GithubProfile } from "@/lib/github";
 import { motion } from "framer-motion";
 import { Calendar, GitCommit, GitFork, Lock } from "lucide-react";
@@ -22,21 +23,24 @@ export function GithubStatsPanel({
   totalContributions,
   includesPrivateData,
 }: Props) {
+  const { dict } = useLocale();
+  const gh = dict.github;
+
   const items = [
     {
-      label: includesPrivateData ? "Total repos" : "Public repos",
+      label: includesPrivateData ? gh.totalRepos : gh.publicRepos,
       value: includesPrivateData ? totalRepos : publicRepos,
       icon: GitFork,
       max: Math.max(totalRepos, publicRepos, 1),
     },
     {
-      label: "Commits",
+      label: gh.commits,
       value: totalCommits,
       icon: GitCommit,
       max: Math.max(totalCommits, 1),
     },
     {
-      label: "Contributions",
+      label: gh.contributions,
       value: totalContributions ?? 0,
       icon: Calendar,
       max: Math.max(totalContributions ?? 0, 1),
@@ -44,7 +48,7 @@ export function GithubStatsPanel({
     ...(includesPrivateData
       ? [
           {
-            label: "Private repos",
+            label: gh.privateRepos,
             value: privateRepos,
             icon: Lock,
             max: Math.max(privateRepos, 1),
@@ -55,8 +59,8 @@ export function GithubStatsPanel({
 
   return (
     <div className="glass-panel rounded-2xl border border-white/10 p-5">
-      <p className="font-display text-sm font-semibold text-neon-cyan">GitHub stats</p>
-      <p className="mt-1 text-xs text-zinc-500">Live data from your account</p>
+      <p className="font-display text-sm font-semibold text-neon-cyan">{gh.statsTitle}</p>
+      <p className="mt-1 text-xs text-zinc-500">{gh.statsSubtitle}</p>
       <ul className="mt-4 space-y-3">
         {items.map((item, i) => {
           const Icon = item.icon;

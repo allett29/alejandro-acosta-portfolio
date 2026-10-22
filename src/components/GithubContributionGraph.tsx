@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "@/i18n/LocaleProvider";
 import type { ContributionDay } from "@/lib/github";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -18,10 +19,13 @@ type Props = {
 };
 
 export function GithubContributionGraph({ days, total }: Props) {
+  const { dict } = useLocale();
+  const gh = dict.github;
+
   if (days.length === 0) {
     return (
       <div className="rounded-2xl border border-white/10 bg-black/20 p-6 text-sm text-zinc-500">
-        Contribution data unavailable. Check GITHUB_TOKEN or try again later.
+        {gh.noContributionData}
       </div>
     );
   }
@@ -51,12 +55,12 @@ export function GithubContributionGraph({ days, total }: Props) {
       <div className="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5">
         <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
           <div>
-            <p className="font-display text-sm font-semibold text-white">Activity graph</p>
-            <p className="text-xs text-zinc-500">Last ~12 months (from GitHub API)</p>
+            <p className="font-display text-sm font-semibold text-white">{gh.activityGraph}</p>
+            <p className="text-xs text-zinc-500">{gh.activityGraphSub}</p>
           </div>
           {total !== null && (
             <p className="font-mono text-xs text-neon-cyan">
-              {total.toLocaleString()} contributions
+              {total.toLocaleString()} {gh.contributionsInPeriod}
             </p>
           )}
         </div>
@@ -90,32 +94,34 @@ export function GithubContributionGraph({ days, total }: Props) {
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5">
-        <p className="mb-3 font-display text-sm font-semibold text-white">Contribution calendar</p>
+        <p className="mb-3 font-display text-sm font-semibold text-white">
+          {gh.contributionCalendar}
+        </p>
         <div
           className="contribution-scroll overflow-x-auto overflow-y-hidden pb-2"
           role="region"
-          aria-label="Contribution calendar — scroll horizontally"
+          aria-label={gh.calendarAria}
         >
-        <div className="flex gap-[3px]" style={{ minWidth: maxWeeks * 14 }}>
-          {weeks.map((week, wi) => (
-            <div key={wi} className="flex flex-col gap-[3px]">
-              {week.map((day) => (
-                <div
-                  key={day.date}
-                  title={`${day.date}: ${day.count} contributions`}
-                  className={cn("h-2.5 w-2.5 rounded-sm sm:h-3 sm:w-3", levelClass(day.count))}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
+          <div className="flex gap-[3px]" style={{ minWidth: maxWeeks * 14 }}>
+            {weeks.map((week, wi) => (
+              <div key={wi} className="flex flex-col gap-[3px]">
+                {week.map((day) => (
+                  <div
+                    key={day.date}
+                    title={`${day.date}: ${day.count} ${gh.contributionsInPeriod}`}
+                    className={cn("h-2.5 w-2.5 rounded-sm sm:h-3 sm:w-3", levelClass(day.count))}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="mt-3 flex items-center justify-end gap-1 text-[10px] text-zinc-500">
-          <span>Less</span>
+          <span>{gh.less}</span>
           {[0, 2, 5, 9, 12].map((n) => (
             <div key={n} className={cn("h-2.5 w-2.5 rounded-sm", levelClass(n))} />
           ))}
-          <span>More</span>
+          <span>{gh.more}</span>
         </div>
       </div>
     </div>

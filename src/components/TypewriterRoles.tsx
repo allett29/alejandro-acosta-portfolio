@@ -1,13 +1,17 @@
 "use client";
 
-import { typewriterRoles } from "@/data/portfolio";
-import { useEffect, useState } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
+import { useEffect, useMemo, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
-
-const sequence = typewriterRoles.flatMap((role) => [role, 1800] as const);
 
 /** Evita mismatch SSR: el typewriter solo corre tras montar en el cliente. */
 export function TypewriterRoles() {
+  const { dict } = useLocale();
+  const typewriterRoles = dict.typewriterRoles;
+  const sequence = useMemo(
+    () => typewriterRoles.flatMap((role) => [role, 1800] as const),
+    [typewriterRoles],
+  );
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
