@@ -91,7 +91,7 @@ export function Hero() {
                 {hero.contact}
               </Link>
               <Link
-                href="/cv-alejandro-acosta.pdf?v=2026-09"
+                href="/cv-alejandro-acosta.pdf?v=2026-11"
                 target="_blank"
                 className="neon-btn-ghost rounded-xl border px-6 py-3 text-sm font-semibold"
               >

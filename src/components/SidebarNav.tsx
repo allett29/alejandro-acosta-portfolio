@@ -175,7 +175,7 @@ function DockNav({ onNavigate }: DockNavProps) {
       </ul>
 
       <Link
-        href="/cv-alejandro-acosta.pdf?v=2026-09"
+        href="/cv-alejandro-acosta.pdf?v=2026-11"
         target="_blank"
         className="mb-2 flex items-center justify-start"
       >
